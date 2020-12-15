@@ -1,0 +1,9 @@
+{% extends 'accounts/_menu.html' %}
+{% block content %}
+<h1 class="text-center mb-3">
+    Welcome, {{user.username}}
+    {% if user.is_authenticated %}
+        <span ><a href="{% url 'accounts:login' %}">Logout</a></span>
+    {% endif %}
+</h1>
+{% endblock %}

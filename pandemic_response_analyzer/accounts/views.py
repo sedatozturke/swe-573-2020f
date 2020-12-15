@@ -1,0 +1,35 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+
+# Create your views here.
+
+def index(request):
+    return render(request, 'index.html')
+
+@login_required
+def home(request):
+    return render(request, 'accounts/home.html')
+
+@login_required
+def data_source(request):
+    return render(request, 'accounts/datasource.html')
+    
+@login_required
+def report(request):
+    return render(request, 'accounts/reports.html')
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'accounts/register.html', {'form': form})
+
+def logoutUser(request):
+	logout(request)
+	return redirect('login')
