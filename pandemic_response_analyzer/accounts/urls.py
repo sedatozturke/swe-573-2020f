@@ -23,9 +23,8 @@ app_name = 'accounts'
 urlpatterns = [
     path('', views.index, name='index'),
     path('home/', views.home, name='home'),
-    path('data/', views.data_source, name='data_sources'),
-    path('report/', views.report, name='report'),
-    path('login/', LoginView.as_view(template_name = 'accounts/login.html'), name='login'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('login/', views.login_view, name='login'),
     path('register/', views.register, name='register_url'),  
 	path('logout/', views.logoutUser, name='logout'),
 ]

@@ -21,6 +21,6 @@ app_name = 'reports'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<int:question_id>/', views.detail, name='detail'),
-    path('<int:question_id>/results/', views.detail, name='results'),
+    path('<int:report_id>/', views.detail, name='detail'),
+    path('new/', views.new, name='new'),
 ]

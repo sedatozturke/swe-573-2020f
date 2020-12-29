@@ -1,21 +1,69 @@
-{% extends 'base.html' %}
+{% extends "layouts/base.html" %}
+
+{% block title %} Page Blank {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
 {% block content %}
-<h1 class="text-center mb-3">
-    Poll Questions
-</h1>
-{% if latest_question_list %}
-    {% for question in latest_question_list %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <p class="lead">
-                {{ question.question_text }}
-                <a href="{% url 'reports:detail' question.id %}" class="btn btn-primary btn-sm">Vote Now</a>
-                <a href="{% url 'reports:results' question.id %}" class="btn btn-primary btn-sm">Results</a>
-            </p>
+                
+    <main>
+        <div class="container-fluid">
+            <h1 class="mt-4">Reports</h1>
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card-header">
+                            <div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
+                                <a href="{% url 'reports:new' %}"><button class="btn btn-primary">Create New Report</button></a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive-lg">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Id</th>
+                                          <th scope="col">Name</th>
+                                          <th scope="col">Tags</th>
+                                          <th scope="col">Start Date</th>
+                                          <th scope="col">End Date</th>
+                                          <th scope="col">Status</th>
+                                          <th scope="col">Action</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {% for source in data %}
+                                          <tr>
+                                            <td>{{ source.id }}</td>
+                                            <td>{{ source.name }}</td>
+                                            <td>{{ source.tags }}</td>
+                                            <td>{{ source.start_date }}</td>
+                                            <td>{{ source.end_date }}</td>
+                                            <td>{{ source.status }}</td>
+                                            <td><a href="{{source.id}}">Details</a></td>
+                                          </tr>
+                                        {% endfor %}
+                                      </tbody>
+                                </table>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    {% endfor %}
-{% else %}
-<p> No polls available</p>
-{% endif %}
-{% endblock %}
+    </main>
+                
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="/static/assets/demo/chart-area-demo.js"></script>
+    <script src="/static/assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+    <script src="/static/assets/demo/datatables-demo.js"></script>
+
+{% endblock javascripts %}

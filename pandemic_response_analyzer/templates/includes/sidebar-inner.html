@@ -1,0 +1,25 @@
+
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Menu</div>
+                    <a class="nav-link {% if 'index' in segment %} active {% endif %}" href="{% url 'accounts:dashboard' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                        Dashboard
+                    </a>
+                    <a class="nav-link {% if 'charts' in segment %} active {% endif %}" href="{% url 'datasources:index' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        Data Sources
+                    </a>
+                    <a class="nav-link {% if 'charts' in segment %} active {% endif %}" href="{% url 'reports:index' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                        Reports
+                    </a>
+                    <a class="nav-link {% if 'charts' in segment %} active {% endif %}" href="{% url 'explore:index' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-globe-africa"></i></div>
+                        Explore
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as: {{ request.user.username }}</div>
+            </div>

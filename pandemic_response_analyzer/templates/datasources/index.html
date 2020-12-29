@@ -1,0 +1,69 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Page Blank {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+                
+    <main>
+        <div class="container-fluid">
+            <h1 class="mt-4">Data Sources</h1>
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card-header">
+                            <div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
+                                <a href="{% url 'datasources:new' %}"><button class="btn btn-primary">Create New Data Source</button></a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive-lg">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Id</th>
+                                          <th scope="col">Platform</th>
+                                          <th scope="col">Tag</th>
+                                          <th scope="col">Type</th>
+                                          <th scope="col">Key</th>
+                                          <th scope="col">Weight</th>
+                                          <th scope="col">Created Date</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {% for source in data %}
+                                          <tr>
+                                            <td>{{ source.id }}</td>
+                                            <td>{{ source.platform }}</td>
+                                            <td>{{ source.tag }}</td>
+                                            <td>{{ source.source_type }}</td>
+                                            <td>{{ source.source_key }}</td>
+                                            <td>{{ source.weight }}</td>
+                                            <td>{{ source.pub_date }}</td>
+                                          </tr>
+                                        {% endfor %}
+                                      </tbody>
+                                </table>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+                
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="/static/assets/demo/chart-area-demo.js"></script>
+    <script src="/static/assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+    <script src="/static/assets/demo/datatables-demo.js"></script>
+
+{% endblock javascripts %}

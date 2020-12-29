@@ -5,9 +5,12 @@ name = "pypi"
 
 [packages]
 django = "*"
+praw = "*"
+psycopg2 = "*"
 
 [dev-packages]
 pylint = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.8"
