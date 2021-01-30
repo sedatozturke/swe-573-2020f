@@ -26,11 +26,12 @@ def new(request):
         if form.is_valid():
             form_name = form.cleaned_data['name']
             form_tags = form.cleaned_data['tags']
+            form_type = form.cleaned_data['report_type']
             form_startdate = datetime.utcnow()
             form_enddate = datetime.utcnow()
             form_status = "Failed"
 
-            report = Report(name=form_name, tags=form_tags, start_date=form_startdate, end_date=form_enddate, status=form_status)
+            report = Report(name=form_name, tags=form_tags, start_date=form_startdate, end_date=form_enddate, status=form_status, report_type=form_type)
             report.save()
 
             msg     = ''

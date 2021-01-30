@@ -18,6 +18,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('reports/', include('reports.urls')),
+    path('crawler/', include('crawler.urls')),
     path('datasource/', include('datasources.urls')),
     path('explore/', include('explore.urls')),
     path('accounts/', include('accounts.urls')),

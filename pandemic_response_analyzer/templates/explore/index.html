@@ -39,6 +39,8 @@
                                       <th scope="col">Score</th>
                                       <th scope="col">Name</th>
                                       <th scope="col">Upvote Ratio</th>
+                                      <th scope="col">Polarity</th>
+                                      <th scope="col">Subjectivity</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -51,6 +53,8 @@
                                         <td>{{ submission.score }}</td>
                                         <td>{{ submission.name }}</td>
                                         <td>{{ submission.upvote_ratio }}</td>
+                                        <td>{{ submission.polarity }}</td>
+                                        <td>{{ submission.subjectivity }}</td>
                                       </tr>
                                     {% endfor %}
                                   </tbody>

@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Register {% endblock %} 
+{% block title %} New Crawler Job {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -13,12 +13,12 @@
             <div class="col-lg-6">
                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                     <div class="card-header text-center">
-                        <h3 class="text-center font-weight-light my-4">Create New Data Source</h3>
+                        <h3 class="text-center font-weight-light my-4">Create New Crawling Job</h3>
                         <span class="text-center">
                             {% if msg %}
                                 {{ msg | safe }}
                             {% else %}
-                                Fill the form to create a data source.
+                                Fill the form to create a new report.
                             {% endif %} 
                         </span>                            
                     </div>
@@ -29,29 +29,9 @@
                             {% csrf_token %} 
 
                             <div class="form-group">
-                                <label class="small mb-1">Platform</label>
-                                {{ form.platform }}
+                                <label class="small mb-1">Data Source Id</label>
+                                {{ form.datasource_id }}
                             </div>
-
-                            <div class="form-group">
-                                <label class="small mb-1">Source Type</label>
-                                {{ form.source_type }}
-                            </div>
-                                
-                            <div class="form-group">
-                                <label class="small mb-1">Tag</label>
-                                {{ form.tag }}
-                            </div>
-
-                            <div class="form-group">
-                                <label class="small mb-1">Source Key</label>
-                                {{ form.source_key }}
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="small mb-1">Weight</label>
-                                {{ form.weight }}
-                            </div> 
                                 
                             <div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
                                 <button type="submit" name="register" class="btn btn-primary">Create</button>

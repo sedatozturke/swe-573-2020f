@@ -1,15 +1,19 @@
 from django import forms
 
 class DataSourceForm(forms.Form):
-    platform = forms.CharField(
-        widget=forms.TextInput(
+    platform_choices = [('Reddit', 'Reddit')]
+    platform = forms.ChoiceField(
+        choices=platform_choices,
+        widget=forms.Select(
             attrs={
                 "placeholder" : "Platform of source",                
                 "class": "form-control"
             }
         ))
-    source_type = forms.CharField(
-        widget=forms.TextInput(
+    source_type_choices = [('Subreddit', 'Subreddit')]
+    source_type = forms.ChoiceField(
+        choices=source_type_choices,
+        widget=forms.Select(
             attrs={
                 "placeholder" : "Type of source",                
                 "class": "form-control"
@@ -32,7 +36,7 @@ class DataSourceForm(forms.Form):
     weight = forms.IntegerField(
         widget=forms.NumberInput(
             attrs={
-                "placeholder" : "1",                
+                "placeholder" : "Enter a number",                
                 "class": "form-control"
             }
         ))
