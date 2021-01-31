@@ -9,6 +9,8 @@ praw = "*"
 psycopg2 = "*"
 textblob = "*"
 tagme = "*"
+nltk = "*"
+wordcloud = "*"
 
 [dev-packages]
 pylint = "*"

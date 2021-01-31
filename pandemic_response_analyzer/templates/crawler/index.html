@@ -26,6 +26,7 @@
                                           <th scope="col">Id</th>
                                           <th scope="col">Data Source Name</th>
                                           <th scope="col">Date</th>
+                                          <th scope="col">Status</th>
                                           <th scope="col">Action</th>
                                         </tr>
                                       </thead>
@@ -35,6 +36,7 @@
                                             <td>{{ source.id }}</td>
                                             <td>{{ source.source.platform }}.{{ source.source.source_type }}.{{ source.source.source_key }}</td>
                                             <td>{{ source.start_date }}</td>
+                                            <td>{{ source.status }}</td>
                                             <td><a href="{{source.id}}">Details</a></td>
                                           </tr>
                                         {% endfor %}
