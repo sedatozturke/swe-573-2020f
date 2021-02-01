@@ -14,19 +14,43 @@
                 <div class="col-xl-6">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <i class="fas fa-chart-area mr-1"></i>
-                            Area Chart
+                            <i class="fas fa-chart-pie mr-1"></i>
+                            Submission Sentiment Distribution
                         </div>
-                        <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                        <div class="card-body"><canvas id="submission-pie" width="100%" height="50"></canvas></div>
                     </div>
                 </div>
                 <div class="col-xl-6">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <i class="fas fa-chart-bar mr-1"></i>
-                            Bar Chart
+                            <i class="fas fa-chart-pie mr-1"></i>
+                            Comment Sentiment Distribution
                         </div>
-                        <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                        <div class="card-body"><canvas id="comment-pie" width="100%" height="50"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-chart-bar mr-1"></i>
+                            Most Common Words
+                        </div>
+                        <div class="card-body"><canvas id="word-count-chart" width="100%" height="30"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-chart-bar mr-1"></i>
+                            Word Cloud
+                        </div>
+                        <div class="card-body" style="padding: 3%;">
+                            <img width="100%" src="data:image/png;base64, {{word_cloud}}" alt="Word Cloud" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,12 +86,102 @@
 {% endblock content %}
 
 {% block javascripts %}
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="/static/assets/demo/chart-area-demo.js"></script>
-    <script src="/static/assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
     <script src="/static/assets/demo/datatables-demo.js"></script>
+    
+    <script type="text/javascript">
+        Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#292b2c';
 
+        var positive = "{{submission.positive}}";
+        var negative = "{{submission.negative}}";
+        var neutral = "{{submission.neutral}}";
+        var ctx = document.getElementById("submission-pie");
+        var submissionPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ["Positive", "Negative", "Neutral"],
+            datasets: [{
+                data: [positive, negative, neutral],
+                backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
+            }],
+        },
+        });
+    </script>
+    <script type="text/javascript">
+        Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#292b2c';
+
+        var positive = "{{comment.positive}}";
+        var negative = "{{comment.negative}}";
+        var neutral = "{{comment.neutral}}";
+        var ctx = document.getElementById("comment-pie");
+        var commentPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ["Positive", "Negative", "Neutral"],
+            datasets: [{
+            data: [positive, negative, neutral],
+            backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
+            }],
+        },
+        });
+    </script>
+    <script type="text/javascript">
+        // Set new default font family and font color to mimic Bootstrap's default styling
+        Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#292b2c';
+        var wordCount = '{{word_count|safe}}';
+        wordCount=JSON.parse(wordCount);
+        wordLabels = [];
+        wordValues = [];
+        wordCount.forEach(item => {
+            wordLabels.push(item[0]);
+        });
+        wordCount.forEach(item => {
+            wordValues.push(item[1]);
+        });
+        console.log(wordLabels);
+        console.log(wordValues);
+        // Bar Chart Example
+        var ctx = document.getElementById("word-count-chart");
+        var myLineChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: wordLabels,
+            datasets: [{
+            label: "Count: ",
+            backgroundColor: "rgba(2,117,216,1)",
+            borderColor: "rgba(2,117,216,1)",
+            data: wordValues,
+            }],
+        },
+        options: {
+            scales: {
+            xAxes: [{
+                gridLines: {
+                    display: false
+                },
+                ticks: {
+                    maxTicksLimit: wordLabels.length
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    maxTicksLimit: wordLabels.length
+                },
+                gridLines: {
+                    display: true
+                }
+            }],
+            },
+            legend: {
+                display: false
+            }
+        }
+        });
+
+    </script>
 {% endblock javascripts %}

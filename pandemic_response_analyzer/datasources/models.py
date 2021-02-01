@@ -7,7 +7,7 @@ class DataSource(models.Model):
     source_type = models.CharField(max_length=50)
     source_key = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
-    weight = models.IntegerField(default=1)
+    limit = models.IntegerField(default=100)
 
     def __str__(self):
         return self.source_key

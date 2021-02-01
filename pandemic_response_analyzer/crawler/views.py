@@ -117,7 +117,7 @@ def new(request):
             subreddit = reddit.subreddit(datasource.source_key)
             sr = save_subreddit(subreddit, crawler)
 
-            submissions = subreddit.new(limit=100)   
+            submissions = subreddit.new(limit=datasource.limit)   
             for submission in submissions:
                 sub = save_submission(submission, sr, crawler)
                 for comment in submission.comments:

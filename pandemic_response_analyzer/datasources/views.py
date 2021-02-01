@@ -29,7 +29,7 @@ def new(request):
             form_source_type = form.cleaned_data['source_type']
             form_source_key = form.cleaned_data['source_key']
             form_tag = form.cleaned_data['tag']
-            form_weight = form.cleaned_data['weight']
+            form_weight = form.cleaned_data['limit']
             form_date = datetime.utcnow()
 
             datasource = DataSource(platform = form_platform, tag = form_tag, source_type = form_source_type, source_key = form_source_key, weight = form_weight, pub_date = form_date)

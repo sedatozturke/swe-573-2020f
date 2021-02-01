@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Report Detail {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+                
+    <main>
+        <div class="container-fluid text-center" style="padding-top: 15%;">
+            <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+            </div>
+            <h3 class="mt-2">Step {{step}} of 4 - {{step_text}}</h3>
+            <h4>Please do not interrupt</h4>
+        </div>
+        <form id="next" role="form" method="post" action="">{% csrf_token %}</form>
+    </main>
+                
+{% endblock content %}
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+        setTimeout(goNext, 2000)
+        function goNext() {
+            document.getElementById("next").submit()
+        }
+    </script>
+
+{% endblock javascripts %}

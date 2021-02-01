@@ -33,10 +33,10 @@ class DataSourceForm(forms.Form):
                 "class": "form-control"
             }
         ))
-    weight = forms.IntegerField(
+    limit = forms.IntegerField(
         widget=forms.NumberInput(
             attrs={
-                "placeholder" : "Enter a number",                
+                "placeholder" : "Enter a number (Default: 100)",                
                 "class": "form-control"
             }
         ))
