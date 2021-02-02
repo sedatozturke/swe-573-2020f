@@ -215,7 +215,7 @@ def tagme_analysis(report):
             if len(submissions) == 0:
                 continue
             for submission in submissions:
-                if submission.upvote_ratio > 0.5 and submission.score > 0:
+                if submission.upvote_ratio > 0.6 and submission.score > 1:
                     annotations = tagme.annotate(submission.title)
                     for ann in annotations.get_annotations(0.5):
                         save_report_entity(report=report, entity_id=ann.entity_id, title=ann.entity_title, prob=ann.score, uri=ann.uri())

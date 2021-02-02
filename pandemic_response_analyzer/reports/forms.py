@@ -18,17 +18,10 @@ class ReportForm(forms.Form):
                 "class": "form-control"
             }
         ))
-    tags = DataSource.objects.filter(collected=True).values('tag').distinct()
-    tag_choices_arr = []
-    for tag in tags:
-        choice = (tag['tag'], tag['tag'])
-        tag_choices_arr.append(choice)
-    tag_choices = tag_choices_arr
-    tag = forms.ChoiceField(
-        choices=tag_choices,
-        widget=forms.Select(
+    tag = forms.CharField(
+        widget=forms.TextInput(
             attrs={
-                "placeholder" : "Datasource Tag",                
+                "placeholder" : "Data source tag",                
                 "class": "form-control"
             }
         ))
