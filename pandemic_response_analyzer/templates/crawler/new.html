@@ -18,13 +18,13 @@
                             {% if msg %}
                                 {{ msg | safe }}
                             {% else %}
-                                Fill the form to create a new report.
+                                Fill the form to create a new crawling job.
                             {% endif %} 
                         </span>                            
                     </div>
                     <div class="card-body">
 
-                        <form role="form" method="post" action="">
+                        <form role="form" method="post" onsubmit="onSubmitClicked()" action="">
 
                             {% csrf_token %} 
 
@@ -34,7 +34,7 @@
                             </div>
                                 
                             <div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
-                                <button type="submit" name="register" class="btn btn-primary">Create</button>
+                                <button type="submit" name="register" id="submit" class="btn btn-primary">Create</button>
                             </div>
 
                         </form>
@@ -49,4 +49,12 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+<script type="text/javascript">
+    function onSubmitClicked() {
+        var submitButton = document.getElementById("submit");
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Create';
+        submitButton.setAttribute('disabled', true);
+    }
+</script>
+{% endblock javascripts %}

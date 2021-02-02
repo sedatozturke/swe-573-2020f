@@ -124,10 +124,12 @@ def new(request):
                     save_comment(comment, sr, sub, crawler)
 
             Crawling.objects.filter(id=crawler.id).update(status='Success')
+            DataSource.objects.filter(id=form.cleaned_data['datasource_id']).update(collected=True)
+
             msg = ''
             success = True
 
-            return render(request, 'crawler/new.html', {"form": form, "msg": msg, "success": success})
+            return redirect('crawler:detail', crawler.id)
         else:
             msg = 'Form is not valid'
     else:

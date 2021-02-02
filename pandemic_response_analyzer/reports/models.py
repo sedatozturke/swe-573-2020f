@@ -16,8 +16,12 @@ class Report(models.Model):
 class ReportDetail(models.Model):
     report = models.OneToOneField(Report, on_delete=models.CASCADE)
     wordcloud_image_b64 = models.CharField(max_length=100000, null=True)
+    graph_image_b64 = models.CharField(max_length=250000, null=True)
     word_count = models.JSONField(null=True)
-
+    positive_submission_score = models.IntegerField(default=0)
+    negative_submission_score = models.IntegerField(default=0)
+    positive_comment_score = models.IntegerField(default=0)
+    negative_comment_score = models.IntegerField(default=0)
 
 class SubmissionReport(models.Model):
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE)

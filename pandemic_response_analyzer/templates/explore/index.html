@@ -15,12 +15,12 @@
                         <h3 class="text-center font-weight-light my-3">Explore</h3>
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
-                                <form method="POST">
+                                <form method="POST" onsubmit="onSubmitClicked()">
                                     {% csrf_token %}
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="keyword" placeholder="Search your keyword">
                                         <div class="input-group-append">
-                                            <button type="submit" class="btn btn-primary btn-md">Search</button>
+                                            <button type="submit" id="submit" class="btn btn-primary btn-md">Search</button>
                                         </div>
                                     </div>
                                 </form>
@@ -32,29 +32,25 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                      <th scope="col">Id</th>
                                       <th scope="col">Reddit Id</th>
                                       <th scope="col">Created Date</th>
+                                      <th scope="col">Subreddit</th>
                                       <th scope="col">Title</th>
                                       <th scope="col">Score</th>
-                                      <th scope="col">Name</th>
                                       <th scope="col">Upvote Ratio</th>
-                                      <th scope="col">Polarity</th>
-                                      <th scope="col">Subjectivity</th>
+                                      <th scope="col">Number of Comments</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     {% for submission in data %}
                                       <tr>
-                                        <td>{{ submission.id }}</td>
                                         <td>{{ submission.reddit_id }}</td>
                                         <td>{{ submission.created_utc }}</td>
+                                        <td>{{ submission.subreddit_name }}</td>
                                         <td>{{ submission.title }}</td>
                                         <td>{{ submission.score }}</td>
-                                        <td>{{ submission.name }}</td>
                                         <td>{{ submission.upvote_ratio }}</td>
-                                        <td>{{ submission.polarity }}</td>
-                                        <td>{{ submission.subjectivity }}</td>
+                                        <td>{{ submission.comment_number }}</td>
                                       </tr>
                                     {% endfor %}
                                   </tbody>
@@ -70,12 +66,16 @@
 {% endblock content %}
 
 {% block javascripts %}
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="/static/assets/demo/chart-area-demo.js"></script>
-    <script src="/static/assets/demo/chart-bar-demo.js"></script>
+    
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
     <script src="/static/assets/demo/datatables-demo.js"></script>
+    <script type="text/javascript">
+        function onSubmitClicked() {
+            var submitButton = document.getElementById("submit");
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Search';
+            submitButton.setAttribute('disabled', true);
+        }
+    </script>
 
 {% endblock javascripts %}

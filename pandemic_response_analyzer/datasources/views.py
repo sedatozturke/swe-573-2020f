@@ -10,14 +10,6 @@ def index(request):
     data = DataSource.objects.all()
     return render(request, 'datasources/index.html', {'data': data})
 
-def detail(request, report_id):
-    #try:
-    #    question = Question.objects.get(pk=question_id)
-    #except Question.DoesNotExist:
-    #    raise Http404("Q d n e")
-    return render(request, 'datasources/detail.html')
-
-
 def new(request):
     msg     = None
     success = False
@@ -32,7 +24,7 @@ def new(request):
             form_weight = form.cleaned_data['limit']
             form_date = datetime.utcnow()
 
-            datasource = DataSource(platform = form_platform, tag = form_tag, source_type = form_source_type, source_key = form_source_key, weight = form_weight, pub_date = form_date)
+            datasource = DataSource(platform = form_platform, tag = form_tag, source_type = form_source_type, source_key = form_source_key, limit = form_weight, pub_date = form_date)
             datasource.save()
 
             msg     = 'User created - please <a href="/login">login</a>.'

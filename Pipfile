@@ -11,6 +11,11 @@ textblob = "*"
 tagme = "*"
 nltk = "*"
 wordcloud = "*"
+pandas = "*"
+numpy = "*"
+networkx = "*"
+scipy = "*"
+matplotlib = "*"
 
 [dev-packages]
 pylint = "*"

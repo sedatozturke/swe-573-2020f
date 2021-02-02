@@ -19,29 +19,34 @@ def index(request):
             tagme.GCUBE_TOKEN = "8947debe-c147-4d1c-b8af-66eb61352b7b-843339462"
             subreddit = reddit.subreddit(keyword)
             new_sr = subreddit.new(limit=100)
+            data = []
             for submission in new_sr:
-                analysis = TextBlob(submission.title)
-                annotations = tagme.annotate(submission.title)
-                for ann in annotations.get_annotations(0.1):
-                    print(ann)
-                mentions = tagme.mentions(submission.title)
-                for mention in mentions.mentions:
-                    print(mention)
-                sub = Subreddit(title=submission.title, reddit_id=submission.id, created_utc=datetime.utcfromtimestamp(submission.created_utc),
-                                score=submission.score, name=submission.name, upvote_ratio=submission.upvote_ratio, polarity=analysis.sentiment.polarity, subjectivity=analysis.sentiment.subjectivity)
+                item = {
+                    "title": submission.title,
+                    "reddit_id": submission.id,
+                    "subreddit_name": subreddit.display_name,
+                    "created_utc": datetime.utcfromtimestamp(submission.created_utc),
+                    "score": submission.score,
+                    "name": submission.name,
+                    "upvote_ratio": submission.upvote_ratio,
+                    "comment_number": submission.num_comments
+                }
+                data.append(item)
+                # analysis = TextBlob(submission.title)
+                # annotations = tagme.annotate(submission.title)
+                # for ann in annotations.get_annotations(0.1):
+                #     print(ann)
+                # mentions = tagme.mentions(submission.title)
+                # for mention in mentions.mentions:
+                #    print(mention)
+                # sub = Subreddit(title=submission.title, reddit_id=submission.id, created_utc=datetime.utcfromtimestamp(submission.created_utc),
+                #                score=submission.score, name=submission.name, upvote_ratio=submission.upvote_ratio, polarity=analysis.sentiment.polarity, subjectivity=analysis.sentiment.subjectivity)
 
-                sub.save()
+                # sub.save()
                 # for comment in submission.comments:
                 #    print(comment.body)
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
-            data = Subreddit.objects.all()
-            print("data")
-            print(data)
             return render(request, 'explore/index.html', { 'data': data })
-    
-    data = Subreddit.objects.all()
-    print("data")
-    print(data)
     return render(request, 'explore/index.html')

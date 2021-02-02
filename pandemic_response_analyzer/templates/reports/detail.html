@@ -10,6 +10,57 @@
     <main>
         <div class="container-fluid">
             <h1 class="mt-4">Report Detail: {{report.name}}</h1>
+            <h4>Date: {{report.start_date}}</h4>
+            <div class="row" style="margin-top: 16px;">
+                <div class="col-xl-2 col-md-4">
+                    <div class="card bg-info text-white mb-4">
+                        <div class="card-body" style="min-height: 90px;">Number of Submissions</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            {{statistics.num_submissions}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-4">
+                    <div class="card bg-info text-white mb-4">
+                        <div class="card-body" style="min-height: 90px;">Number of Comments</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            {{statistics.num_comments}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-4">
+                    <div class="card bg-info text-white mb-4">
+                        <div class="card-body" style="min-height: 90px;">Support on Positive Submissions</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            {{statistics.positive_sb_score}} ({{statistics.positive_sb_percent}}%)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-4">
+                    <div class="card bg-info text-white mb-4">
+                        <div class="card-body" style="min-height: 90px;">Support on Negative Submissions</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            {{statistics.negative_sb_score}} ({{statistics.negative_sb_percent}}%)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-4">
+                    <div class="card bg-info text-white mb-4">
+                        <div class="card-body" style="min-height: 90px;">Support on Positive Comments</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            {{statistics.positive_cm_score}} ({{statistics.positive_cm_percent}}%)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-4">
+                    <div class="card bg-info text-white mb-4">
+                        <div class="card-body" style="min-height: 90px;">Support on Negative Comments</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            {{statistics.negative_cm_score}} ({{statistics.negative_cm_percent}}%)
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xl-6">
                     <div class="card mb-4">
@@ -50,6 +101,19 @@
                         </div>
                         <div class="card-body" style="padding: 3%;">
                             <img width="100%" src="data:image/png;base64, {{word_cloud}}" alt="Word Cloud" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-chart-bar mr-1"></i>
+                            Network Graph
+                        </div>
+                        <div class="card-body" style="padding: 3%;">
+                            <img width="100%" src="data:image/png;base64, {{graph}}" alt="Network Graph" />
                         </div>
                     </div>
                 </div>
