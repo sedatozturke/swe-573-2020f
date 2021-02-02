@@ -13,4 +13,6 @@ COPY . /code/
 
 WORKDIR /code/pandemic_response_analyzer
 
+RUN python /code/pandemic_response_analyzer/manage.py collectstatic --noinput
+
 CMD gunicorn pandemic_response_analyzer.wsgi:application --bind 0.0.0.0:$PORT
