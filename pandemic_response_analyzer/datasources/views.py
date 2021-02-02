@@ -3,13 +3,14 @@ from django.http import Http404
 from .forms import DataSourceForm
 from datetime import datetime
 from .models import DataSource
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
-    # latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    # context = {'latest_question_list': latest_question_list}
     data = DataSource.objects.all()
     return render(request, 'datasources/index.html', {'data': data})
 
+@login_required
 def new(request):
     msg     = None
     success = False
@@ -36,7 +37,3 @@ def new(request):
     else:
         form = DataSourceForm()
     return render(request, 'datasources/new.html', {"form": form, "msg" : msg, "success" : success })
-
-#def results(request, question_id):
-#    question = get_object_or_404(Question, pk=question_id)
-#    return render(request, 'reports/result.html', { 'question': question })

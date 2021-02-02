@@ -9,6 +9,10 @@ import praw
 import datetime as dt
 from .forms import LoginForm, SignUpForm
 from datetime import datetime
+from crawler.models import Submission, Comment
+from reports.models import Report
+from datasources.models import DataSource
+
 
 # Create your views here.
 
@@ -19,7 +23,17 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard/index.html')
+    submissions = Submission.objects.all().count
+    comments = Comment.objects.all().count
+    reports = Report.objects.all().count
+    datasources = DataSource.objects.all().count
+    context = {
+        "submissions": submissions,
+        "comments": comments,
+        "reports": reports,
+        "datasources": datasources
+    }
+    return render(request, 'dashboard/index.html', context=context)
 
 
 @login_required

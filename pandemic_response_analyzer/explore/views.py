@@ -7,7 +7,9 @@ from .models import Subreddit
 from datetime import datetime
 from textblob import TextBlob
 import tagme
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
     if request.method == 'POST':
         form = SearchForm(request.POST)
@@ -32,21 +34,5 @@ def index(request):
                     "comment_number": submission.num_comments
                 }
                 data.append(item)
-                # analysis = TextBlob(submission.title)
-                # annotations = tagme.annotate(submission.title)
-                # for ann in annotations.get_annotations(0.1):
-                #     print(ann)
-                # mentions = tagme.mentions(submission.title)
-                # for mention in mentions.mentions:
-                #    print(mention)
-                # sub = Subreddit(title=submission.title, reddit_id=submission.id, created_utc=datetime.utcfromtimestamp(submission.created_utc),
-                #                score=submission.score, name=submission.name, upvote_ratio=submission.upvote_ratio, polarity=analysis.sentiment.polarity, subjectivity=analysis.sentiment.subjectivity)
-
-                # sub.save()
-                # for comment in submission.comments:
-                #    print(comment.body)
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
             return render(request, 'explore/index.html', { 'data': data })
     return render(request, 'explore/index.html')

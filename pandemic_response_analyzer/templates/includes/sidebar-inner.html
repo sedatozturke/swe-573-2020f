@@ -10,17 +10,17 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                         Data Sources
                     </a>
-                    <a class="nav-link {% if 'charts' in segment %} active {% endif %}" href="{% url 'reports:index' %}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                        Reports
-                    </a>
-                    <a class="nav-link {% if 'charts' in segment %} active {% endif %}" href="{% url 'crawler:index' %}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                        Crawler
-                    </a>
                     <a class="nav-link {% if 'charts' in segment %} active {% endif %}" href="{% url 'explore:index' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-globe-africa"></i></div>
                         Explore
+                    </a>
+                    <a class="nav-link {% if 'charts' in segment %} active {% endif %}" href="{% url 'crawler:index' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-download"></i></div>
+                        Collect
+                    </a>
+                    <a class="nav-link {% if 'charts' in segment %} active {% endif %}" href="{% url 'reports:index' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                        Analyze
                     </a>
                 </div>
             </div>

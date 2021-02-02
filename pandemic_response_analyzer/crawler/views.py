@@ -5,15 +5,16 @@ from .forms import CrawlerForm
 from .models import Crawling, Comment, Submission, Subreddit
 from datasources.models import DataSource
 import praw
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def index(request):
     # latest_question_list = Question.objects.order_by('-pub_date')[:5]
     # context = {'latest_question_list': latest_question_list}
     data = Crawling.objects.all()
     return render(request, 'crawler/index.html', {'data': data})
 
-
+@login_required
 def detail(request, crawl_id):
     try:
         crawler = Crawling.objects.get(pk=crawl_id)
@@ -27,45 +28,6 @@ def detail(request, crawl_id):
         raise Http404("Q d n e")
     return render(request, 'crawler/detail.html', {'crawler': crawler, 'data': data})
 
-
-def crawl(request):
-    if request.method == 'POST':
-        form = CrawlerForm(request.POST)
-        if form.is_valid():
-            keyword = form.cleaned_data['keyword']
-            reddit = praw.Reddit(client_id='pcZsViT7EcP8WQ',
-                                 client_secret='iJtPC9Tmdyk96hd3cUvmuyrmAFMJXA',
-                                 user_agent='swe-573-student-project')
-            # tagme.GCUBE_TOKEN = "8947debe-c147-4d1c-b8af-66eb61352b7b-843339462"
-            subreddit = reddit.subreddit(keyword)
-            new_sr = subreddit.new(limit=100)
-            for submission in new_sr:
-                print(submission)
-                #analysis = TextBlob(submission.title)
-                #annotations = tagme.annotate(submission.title)
-                # for ann in annotations.get_annotations(0.1):
-                #    print(ann)
-                #mentions = tagme.mentions(submission.title)
-                # for mention in mentions.mentions:
-                #    print(mention)
-                # sub = Subreddit(title=submission.title, reddit_id=submission.id, created_utc=datetime.utcfromtimestamp(submission.created_utc),
-                #                score=submission.score, name=submission.name, upvote_ratio=submission.upvote_ratio, polarity=analysis.sentiment.polarity, subjectivity=analysis.sentiment.subjectivity)
-
-                # sub.save()
-                # for comment in submission.comments:
-                #    print(comment.body)
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            #data = Subreddit.objects.all()
-            # print("data")
-            # print(data)
-            return render(request, 'explore/index.html')
-
-    #data = Subreddit.objects.all()
-    # print("data")
-    # print(data)
-    return render(request, 'explore/index.html')
 
 def save_subreddit(subreddit, crawler):
     try:
@@ -97,6 +59,7 @@ def save_comment(comment, subreddit, submission, crawler):
         com.save()
         return com
 
+@login_required
 def new(request):
     msg = None
     success = False
@@ -136,6 +99,3 @@ def new(request):
         form = CrawlerForm()
     return render(request, 'crawler/new.html', {"form": form, "msg": msg, "success": success})
 
-# def results(request, question_id):
-#    question = get_object_or_404(Question, pk=question_id)
-#    return render(request, 'reports/result.html', { 'question': question })

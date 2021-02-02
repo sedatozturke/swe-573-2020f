@@ -6,7 +6,7 @@ from nltk.corpus import stopwords
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from .forms import ReportForm
-from .models import Report, ReportDetail, SubmissionReport, CommentReport
+from .models import Report, ReportDetail, SubmissionReport, CommentReport, ReportEntity
 from datetime import datetime
 from textblob import TextBlob, Word
 from textblob.sentiments import NaiveBayesAnalyzer
@@ -27,13 +27,15 @@ import matplotlib.pyplot as plt; plt.rcdefaults()
 nltk.download('stopwords')
 nltk.download('wordnet')
 nltk.download('punkt')
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def index(request):
     data = Report.objects.all()
     return render(request, 'reports/index.html', {'data': data})
 
-
+@login_required
 def detail(request, report_id):
     try:
         report = Report.objects.get(pk=report_id)
@@ -52,7 +54,7 @@ def detail(request, report_id):
         if report.status == 'Tagme':
             step = "3"
             step_text = "Entity Network Analysis"
-            analysis_success = True
+            analysis_success = tagme_analysis(report)
             if analysis_success is True:
                 Report.objects.filter(pk=report_id).update(status='Network')
             return render(request, 'reports/detail-loading.html', {"step": step, "step_text": step_text})
@@ -87,6 +89,7 @@ def detail(request, report_id):
                 "positive": len(positive_comments), "negative": len(negative_comments), "neutral": len(neutral_comments)
             }
             report_detail = ReportDetail.objects.get(report=report)
+            report_entities = ReportEntity.objects.filter(report=report)
             word_count = report_detail.word_count
             word_cloud = report_detail.wordcloud_image_b64
             graph = report_detail.graph_image_b64
@@ -116,14 +119,15 @@ def detail(request, report_id):
                 "word_cloud": word_cloud,
                 "statistics": report_detail_statistics,
                 "report": report,
-                "graph": graph
+                "graph": graph,
+                "report_entities": report_entities
             }
             return render(request, 'reports/detail.html', context=context)
     except Report.DoesNotExist:
         raise Http404("Q d n e")
     return render(request, 'reports/detail-loading.html')
 
-
+@login_required
 def new(request):
     msg = None
     success = False
@@ -201,9 +205,9 @@ def textblob_analysis(report):
     return True
 
 
-def tagme_analysis(tag, report):
+def tagme_analysis(report):
     tagme.GCUBE_TOKEN = "8947debe-c147-4d1c-b8af-66eb61352b7b-843339462"
-    datasources = DataSource.objects.filter(tag=tag, collected=True)
+    datasources = DataSource.objects.filter(tag=report.tags, collected=True)
     for datasource in datasources:
         crawls = Crawling.objects.filter(source=datasource, status='Success')
         for crawl in crawls:
@@ -211,15 +215,14 @@ def tagme_analysis(tag, report):
             if len(submissions) == 0:
                 continue
             for submission in submissions:
-                mentions = tagme.mentions(submission.title)
-                men_array = []
-                for men in mentions.get_mentions(0.1):
-                    mention = men.mention.lower()
-                    men_array.append(mention)
-                if len(men_array) > 1:
-                    print(str(men_array))
+                if submission.upvote_ratio > 0.5 and submission.score > 0:
+                    annotations = tagme.annotate(submission.title)
+                    for ann in annotations.get_annotations(0.5):
+                        save_report_entity(report=report, entity_id=ann.entity_id, title=ann.entity_title, prob=ann.score, uri=ann.uri())
     return True
 
+
+## https://www.kaggle.com/itoeiji/simple-co-occurrence-network
 def network_analysis(report):
     stop_words = set(stopwords.words('english'))
     stop_words.add('http')
@@ -287,7 +290,6 @@ def network_analysis(report):
                 jaccard = jaccard_matrix[i, j]
                 if jaccard > 0:
                     nodes.append([re_vocab[i], re_vocab[j], word_cnt[re_vocab[i]], word_cnt[re_vocab[j]], jaccard])
-        print(len(nodes))
 
         G = nx.Graph()
         G.nodes(data=True)
@@ -330,22 +332,6 @@ def word_counter(text, stop_words):
     word_freq = Counter(words)
     most_common_words = word_freq.most_common(50)
     return most_common_words, words
-
-
-def naive_bayes_analysis(tag):
-    datasources = DataSource.objects.filter(tag=tag)
-    for datasource in datasources:
-        crawls = Crawling.objects.filter(source=datasource, status='Success')
-        for crawl in crawls:
-            submissions = Submission.objects.filter(crawling=crawl)
-            for submission in submissions:
-                blob_object = TextBlob(
-                    submission.title, analyzer=NaiveBayesAnalyzer())
-            comments = Comment.objects.filter(crawling=crawl)
-            for comment in comments:
-                blob_object = TextBlob(
-                    comment.body, analyzer=NaiveBayesAnalyzer())
-
 
 def wordcloud_image(text, stop_words):
     wordcloud = WordCloud(width=500, height=200,
@@ -413,3 +399,12 @@ def save_report_detail(report, cm_words, wc_image, p_s_score, n_s_score, p_c_sco
             cm_words), positive_submission_score=p_s_score, negative_submission_score=n_s_score, positive_comment_score=p_c_score, negative_comment_score=n_c_score)
         report_detail.save()
         return report_detail
+
+def save_report_entity(report, entity_id, title, prob, uri):
+    try:
+        report_entity = ReportEntity.objects.get(report=report, entity_id=entity_id)
+        return report_entity
+    except ReportEntity.DoesNotExist:
+        report_entity = ReportEntity(report=report, entity_id=entity_id, title=title, probability=prob, uri=uri)
+        report_entity.save()
+        return report_entity

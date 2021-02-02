@@ -105,6 +105,38 @@
                     </div>
                 </div>
             </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table mr-1"></i>
+                    Entities to examine
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Entity Id</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Probability</th>
+                                    <th scope="col">Link</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for source in report_entities %}
+                                    <tr>
+                                    <td>{{ source.id }}</td>
+                                    <td>{{ source.entity_id }}</td>
+                                    <td>{{ source.title }}</td>
+                                    <td>{{ source.probability }}</td>
+                                    <td><a href="{{source.uri}}">Open Wikipedia</a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card mb-4">
@@ -115,32 +147,6 @@
                         <div class="card-body" style="padding: 3%;">
                             <img width="100%" src="data:image/png;base64, {{graph}}" alt="Network Graph" />
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-table mr-1"></i>
-                    Report Table
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                            </tfoot>
-                            <tbody>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>

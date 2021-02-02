@@ -13,10 +13,19 @@ class Report(models.Model):
     def __str__(self):
         return self.name
 
+class ReportEntity(models.Model):
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    title = models.CharField(max_length=250)
+    probability = models.FloatField(default=0.0)
+    uri = models.CharField(max_length=1000)
+    entity_id = models.CharField(max_length=50)
+    def __str__(self):
+        return self.title
+
 class ReportDetail(models.Model):
     report = models.OneToOneField(Report, on_delete=models.CASCADE)
     wordcloud_image_b64 = models.CharField(max_length=100000, null=True)
-    graph_image_b64 = models.CharField(max_length=250000, null=True)
+    graph_image_b64 = models.CharField(max_length=300000, null=True)
     word_count = models.JSONField(null=True)
     positive_submission_score = models.IntegerField(default=0)
     negative_submission_score = models.IntegerField(default=0)

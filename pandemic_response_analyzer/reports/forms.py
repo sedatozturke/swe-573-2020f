@@ -9,7 +9,7 @@ class ReportForm(forms.Form):
                 "class": "form-control"
             }
         ))
-    report_type_choices = [('Instant Report', 'Instant Report'), ('Trend Report', 'Trend Report')]
+    report_type_choices = [('Instant Report', 'Instant Report')]
     report_type = forms.ChoiceField(
         choices=report_type_choices,
         widget=forms.Select(
@@ -18,7 +18,7 @@ class ReportForm(forms.Form):
                 "class": "form-control"
             }
         ))
-    tags = DataSource.objects.values('tag').distinct()
+    tags = DataSource.objects.filter(collected=True).values('tag').distinct()
     tag_choices_arr = []
     for tag in tags:
         choice = (tag['tag'], tag['tag'])

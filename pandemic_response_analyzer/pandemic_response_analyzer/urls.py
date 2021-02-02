@@ -21,6 +21,6 @@ urlpatterns = [
     path('crawler/', include('crawler.urls')),
     path('datasource/', include('datasources.urls')),
     path('explore/', include('explore.urls')),
-    path('accounts/', include('accounts.urls')),
+    path('', include('accounts.urls')),
     path('admin/', admin.site.urls),
 ]
