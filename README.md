@@ -5,5 +5,4 @@ A repository for term project of SWE-573 lecture.
 This project will analyze the public response to Covid-19 interventions using the observations on the Twitter posts.
 
 # Required Development Environment
-* Twitter Developer account.
-* Java SE v11 or higher.
+* Python 3.8, PostgreSQL, Django 3.1.5
